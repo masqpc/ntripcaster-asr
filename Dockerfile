@@ -8,6 +8,11 @@ RUN apt-get update && apt-get install build-essential --assume-yes
 
 RUN ./configure
 
+# Create the runtime config files from the shipped examples if they were not committed.
+RUN cd conf \
+    && ([ -f ntripcaster.conf ] || cp ntripcaster.conf.dist ntripcaster.conf) \
+    && ([ -f sourcetable.dat ] || cp sourcetable.dat.dist sourcetable.dat)
+
 RUN make install
 
 # The builder image is dumped and a fresh image is used
